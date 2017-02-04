@@ -27,7 +27,7 @@ SECRET_KEY = 'h#qw=_+9&s5y=1w)dslyoh*(q0sah_2e9l%v$7%hbxm^=809(_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['limitless-tundra-65683.herokuapp.com']
 
 
 # Application definition
