@@ -1,0 +1,37 @@
+<html>
+    <head>
+        <title>Thumbnails {{ size }}x{{ size}}</title>
+    </head>
+
+    <h1>Thumbnails ({{ size }}x{{ size }})</h1>
+
+    <h2>
+        Sizes:
+        {% for a_size in sizes %}
+            {% ifnotequal a_size size %}
+            <a href="{% url 'italist.thumbnailer:index' size=a_size %}">
+            {% endifnotequal %}
+            {{ a_size }}
+            {% ifnotequal a_size size %}
+            </a>
+            {% endifnotequal %}
+        {% endfor %}
+    </h2>
+
+    <br>
+
+    <body>
+        <ul>
+            {% for thumbnail in thumbnails %}
+            <li><img src="{{ thumbnail.url }}"></li>
+            {% endfor %}
+        </ul>
+        <form method="post">
+            <fieldset>
+                {%  csrf_token %}
+                <input type="file" name="image"/>
+                <button type="submit">Upload</button>
+            </fieldset>
+        </form>
+    </body>
+</html>
