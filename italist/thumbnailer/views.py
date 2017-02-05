@@ -36,6 +36,9 @@ class ThumbnailerView(View):
         if status is 'error':
             context.update({'error': payload})
 
+        if status is 'thumbnail':
+            context.update({'message': 'File uploaded'})
+
         return render(request, self.template_name, context)
 
     def _call_thumbnailer(self, size, data):
@@ -59,15 +62,14 @@ class ThumbnailerView(View):
             auth=auth,
             json={'size': int(size), 'data': base64.b64encode(data)}
         )
-
         try:
             json = response.json()
         except ValueError:
             return 'error', 'Service temporary unavailable'
 
-        error = json.get('error')
-        if error:
-            return 'error', error
+        if response.status_code is not 200:
+            error = json.get('error')
+            return 'error', error if error else 'Service temporary unavailable'
 
         thumbnail = base64.b64decode(json.get('data'))
 

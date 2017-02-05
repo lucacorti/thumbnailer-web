@@ -7,6 +7,8 @@
 
     {% if error %}
         <h2 style="color: red;">ERROR: {{ error }}</h2>
+    {% elif message %}
+        <h2 style="color: green;">File uploaded!</h2>
     {% endif %}
     <h2>
         Sizes:
