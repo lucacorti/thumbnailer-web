@@ -27,7 +27,7 @@ SECRET_KEY = 'h#qw=_+9&s5y=1w)dslyoh*(q0sah_2e9l%v$7%hbxm^=809(_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['limitless-tundra-65683.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', 'limitless-tundra-65683.herokuapp.com']
 
 
 # Application definition
@@ -124,3 +124,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+THUMBNAILER = {
+    'URL': os.environ.get('THUMBNAILER_URL', 'http://localhost:5000/thumbnailer'),
+    'AWS_KEY': os.environ.get('AWS_KEY'),
+    'AWS_SECRET': os.environ.get('AWS_SECRET'),
+    'AWS_REGION': os.environ.get('AWS_REGION')
+}
+

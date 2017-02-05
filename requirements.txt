@@ -1,4 +1,6 @@
 Django==1.10.5
+aws-requests-auth==0.3.0
 dj-database-url==0.4.2
 gunicorn==19.6.0
 psycopg2==2.6.2
+requests==2.13.0

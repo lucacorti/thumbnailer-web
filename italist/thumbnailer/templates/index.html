@@ -5,6 +5,9 @@
 
     <h1>Thumbnails ({{ size }}x{{ size }})</h1>
 
+    {% if error %}
+        <h2 style="color: red;">ERROR: {{ error }}</h2>
+    {% endif %}
     <h2>
         Sizes:
         {% for a_size in sizes %}
@@ -26,7 +29,7 @@
             <li><img src="{{ thumbnail.url }}"></li>
             {% endfor %}
         </ul>
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <fieldset>
                 {%  csrf_token %}
                 <input type="file" name="image"/>
