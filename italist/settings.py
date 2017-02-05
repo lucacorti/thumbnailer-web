@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     # 'django.contrib.sessions',
     # 'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_s3_storage',
     'italist.thumbnailer'
 ]
 
@@ -86,6 +87,14 @@ DATABASES = {
 db_from_env = dj_database_url.config()
 DATABASES['default'].update(db_from_env)
 
+DEFAULT_FILE_STORAGE = 'django_s3_storage.storage.S3Storage'
+STATICFILES_STORAGE = 'django_s3_storage.storage.StaticS3Storage'
+AWS_REGION = os.environ.get('AWS_REGION')
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_KEY')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET')
+AWS_S3_BUCKET_NAME = os.environ.get('AWS_S3_BUCKET_NAME')
+AWS_S3_BUCKET_AUTH = False
+AWS_S3_MAX_AGE_SECONDS = 60*60*24*365
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators

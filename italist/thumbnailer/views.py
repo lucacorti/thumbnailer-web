@@ -2,11 +2,14 @@ import base64
 
 from aws_requests_auth.aws_auth import AWSRequestsAuth
 from django.conf import settings
+from django.core.files import File
 from django.http import Http404
 from django.shortcuts import render
 from django.views.generic import View
 
 import requests
+
+from italist.thumbnailer.models import Thumbnail
 
 
 class ThumbnailerView(View):
@@ -71,6 +74,14 @@ class ThumbnailerView(View):
             error = json.get('error')
             return 'error', error if error else 'Service temporary unavailable'
 
-        thumbnail = base64.b64decode(json.get('data'))
+        try:
+            data = base64.b64decode(json.get('data'))
+        except TypeError:
+            return 'error', 'Service temporary unavailable'
+
+        thumbnail = Thumbnail()
+        thumbnail.image.save('name', File(data))
+        thumbnail.size = int(size)
+        thumbnail.save()
 
         return 'thumbnail', thumbnail
