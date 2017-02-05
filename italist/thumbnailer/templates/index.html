@@ -29,7 +29,7 @@
     <body>
         <ul>
             {% for thumbnail in thumbnails %}
-            <li><img src="{{ thumbnail.url }}"></li>
+            <li><img src="{{ thumbnail.image.url }}"></li>
             {% endfor %}
         </ul>
         <form method="post" enctype="multipart/form-data">

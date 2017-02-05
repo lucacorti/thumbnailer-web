@@ -1,8 +1,10 @@
 import base64
+import uuid
 
 from aws_requests_auth.aws_auth import AWSRequestsAuth
 from django.conf import settings
 from django.core.files import File
+from django.core.files.base import ContentFile
 from django.http import Http404
 from django.shortcuts import render
 from django.views.generic import View
@@ -27,6 +29,8 @@ class ThumbnailerView(View):
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(request, *args, **kwargs)
+        size = kwargs.get('size')
+        context.update({'thumbnails': Thumbnail.objects.filter(size=int(size))})
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
@@ -41,6 +45,7 @@ class ThumbnailerView(View):
 
         if status is 'thumbnail':
             context.update({'message': 'File uploaded'})
+            context.update({'thumbnails': Thumbnail.objects.filter(size=int(size))})
 
         return render(request, self.template_name, context)
 
@@ -75,13 +80,13 @@ class ThumbnailerView(View):
             return 'error', error if error else 'Service temporary unavailable'
 
         try:
-            data = base64.b64decode(json.get('data'))
+            new_data = base64.b64decode(json.get('data'))
         except TypeError:
             return 'error', 'Service temporary unavailable'
 
         thumbnail = Thumbnail()
-        thumbnail.image.save('name', File(data))
         thumbnail.size = int(size)
+        thumbnail.image.save(str(uuid.uuid4()), ContentFile(new_data))
         thumbnail.save()
 
         return 'thumbnail', thumbnail
