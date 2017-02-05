@@ -1,16 +1,12 @@
 import base64
-from pprint import pprint
 
 from aws_requests_auth.aws_auth import AWSRequestsAuth
 from django.conf import settings
 from django.http import Http404
 from django.shortcuts import render
-
 from django.views.generic import View
 
 import requests
-
-# from aws_requests_auth.aws_auth import AWSRequestsAuth
 
 
 class ThumbnailerView(View):
