@@ -17,3 +17,14 @@ class PagesTest(TestCase):
     def test_non_existing_sizes_pages_404(self):
         r = self.c.get(reverse('italist.thumbnailer:index', kwargs={'size': 4096}))
         assert(r.status_code == 404)
+
+    def test_post_existing_sizes_pages_200(self):
+        r = self.c.post(reverse('italist.thumbnailer:index', kwargs={'size': 120}))
+        assert(r.status_code == 200)
+
+        r = self.c.post(reverse('italist.thumbnailer:index', kwargs={'size': 360}))
+        assert(r.status_code == 200)
+
+    def test_post_non_existing_sizes_pages_404(self):
+        r = self.c.post(reverse('italist.thumbnailer:index', kwargs={'size': 4096}))
+        assert(r.status_code == 404)

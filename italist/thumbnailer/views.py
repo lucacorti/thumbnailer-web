@@ -36,7 +36,12 @@ class ThumbnailerView(View):
 
     def post(self, request, *args, **kwargs):
         context = self.get_context_data(request, *args, **kwargs)
-        image = request.FILES.get('image').read()
+        uploaded_file = request.FILES.get('image')
+        if not uploaded_file:
+            context.update({'error': 'No file uploaded'})
+            return render(request, self.template_name, context)
+
+        image = uploaded_file.read()
         size = kwargs.get('size')
 
         status, payload = self._call_thumbnailer(size, image)
