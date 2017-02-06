@@ -27,11 +27,6 @@
     <br>
 
     <body>
-        <ul>
-            {% for thumbnail in thumbnails %}
-            <li><img src="{{ thumbnail.image.url }}"></li>
-            {% endfor %}
-        </ul>
         <form method="post" enctype="multipart/form-data">
             <fieldset>
                 {%  csrf_token %}
@@ -39,5 +34,10 @@
                 <button type="submit">Upload</button>
             </fieldset>
         </form>
+        <ul>
+            {% for thumbnail in thumbnails %}
+            <li><img src="{{ thumbnail.image.url }}"></li>
+            {% endfor %}
+        </ul>
     </body>
 </html>
