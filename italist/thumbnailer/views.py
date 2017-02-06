@@ -10,6 +10,7 @@ from django.shortcuts import render
 from django.views.generic import View
 
 import requests
+from requests import ConnectionError
 
 from italist.thumbnailer.models import Thumbnail
 
@@ -65,14 +66,14 @@ class ThumbnailerView(View):
                 aws_service='es'
             )
 
-        response = requests.post(
-            url,
-            auth=auth,
-            json={'size': int(size), 'data': base64.b64encode(data)}
-        )
         try:
+            response = requests.post(
+                url,
+                auth=auth,
+                json={'size': int(size), 'data': base64.b64encode(data)}
+            )
             json = response.json()
-        except ValueError:
+        except (ConnectionError, ValueError):
             return 'error', 'Service temporary unavailable'
 
         if response.status_code is not 200:
